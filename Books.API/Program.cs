@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Books.API
 {
@@ -13,6 +9,7 @@ namespace Books.API
     {
         public static void Main(string[] args)
         {
+            ThreadPool.SetMaxThreads(Environment.ProcessorCount, Environment.ProcessorCount);
             CreateHostBuilder(args).Build().Run();
         }
 
