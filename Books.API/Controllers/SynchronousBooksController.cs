@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 
 namespace Books.API.Controllers
 {
-    [Route("api/synchronousbooks")]
     [ApiController]
+    [Route("api/synchronousbooks")]
     public class SynchronousBooksController : ControllerBase
     {
         private readonly IBooksRepository _booksRepository;
 
         public SynchronousBooksController(IBooksRepository booksRepository)
         {
-            _booksRepository = booksRepository ?? throw new ArgumentNullException(nameof(booksRepository));
+            _booksRepository = booksRepository ??
+                throw new ArgumentNullException(nameof(booksRepository));
         }
 
-        [HttpGet]
-        [BookResultFilter]
+        [HttpGet()]
+        [BooksResultFilter]
         public IActionResult GetBooks()
         {
             var bookEntities = _booksRepository.GetBooks();
