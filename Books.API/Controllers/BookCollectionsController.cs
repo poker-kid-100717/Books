@@ -30,7 +30,7 @@ namespace Books.API.Controllers
         // api/bookcollections/(id1,id2,...)
         [HttpGet("({bookIds})", Name = "GetBookCollection")]
         public async Task<IActionResult> GetBookCollection(
-              [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> bookIds)
+              [ModelBinder(BinderType = typeof(ArrayBinderModel))] IEnumerable<int> bookIds)
         {
             var bookEntities = await _booksRepository.GetBooksAsync(bookIds);
 
@@ -47,7 +47,7 @@ namespace Books.API.Controllers
         public async Task<IActionResult> CreateBookCollection(
             IEnumerable<BookForCreation> bookCollection)
         {
-            var bookEntities = _mapper.Map<IEnumerable<Entities.Book>>(bookCollection);
+            var bookEntities = _mapper.Map<IEnumerable<Data.Entities.Book>>(bookCollection);
 
             foreach (var bookEntity in bookEntities)
             {

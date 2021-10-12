@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Books.API.Models
 {
-    public class ArrayModelBinder : IModelBinder
+    public class ArrayBinderModel : IModelBinder
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
