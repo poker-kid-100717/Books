@@ -2,7 +2,6 @@
 using Books.API.Filters;
 using Books.API.Models;
 using Books.API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,7 +36,7 @@ namespace Books.API.Controllers
 
         [HttpGet]
         [Route("{id}", Name = "GetBook")]
-        [BookResultFilter]
+        [BookWithCoverResultFilter]
         public async Task<IActionResult> GetBook(int id)
         {
             var bookEntity = await _booksRepository.GetBookAsync(id);
@@ -45,15 +44,22 @@ namespace Books.API.Controllers
             {
                 return NotFound();
             }
+            var bookCovers = await _booksRepository.GetBookCoversAsync(id);
 
-            return Ok(bookEntity);
+            //var propertyBag = new Tuple<Entities.Book, IEnumerable<ExternalModels.BookCover>>
+            //    (bookEntity, bookCovers);
+
+            //(Entities.Book book, IEnumerable<ExternalModels.BookCover> bookCovers) 
+            //    propertyBag = (bookEntity, bookCovers);
+
+            return Ok((bookEntity, bookCovers));
         }
 
         [HttpPost]
         [BookResultFilter]
         public async Task<IActionResult> CreateBook(BookForCreation bookForCreation)
         {
-            var bookEntity = _mapper.Map<Entities.Book>(bookForCreation);
+            var bookEntity = _mapper.Map<Data.Entities.Book>(bookForCreation);
 
             _booksRepository.AddBook(bookEntity);
 
